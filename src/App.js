@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useEffect, useState } from "react";
+import CalendarStyle from "./components/Calendar/CalendarStyle";
+import { getMonth } from "./utils/getMonth";
+import CalendarHeader from "./components/Calendar/CalendarHeader/CalendarHeader";
+import { Box } from "@mui/material";
+import Sidebar from "./components/Sidebar/Sidebar";
+import Month from "./components/Calendar/Month/Month";
+import GlobalContext from "./context/GlobalContext";
+import dayjs from "dayjs";
 
-function App() {
+const App = () => {
+  const [currentMonth, setCurrentMonth] = useState(getMonth());
+  const { monthIndex } = useContext(GlobalContext);
+
+  useEffect(() => {
+    setCurrentMonth(getMonth(monthIndex));
+  }, [monthIndex]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box
+      className="calendar_container"
+      display="flex"
+      flexDirection="column"
+      position="relative"
+      height="100vh"
+    >
+      <CalendarHeader />
+      {/* <CalendarStyle /> */}
+      <Box display="flex" flex={1}>
+        <Sidebar />
+        <Month month={currentMonth} />
+      </Box>
+    </Box>
   );
-}
+};
 
 export default App;

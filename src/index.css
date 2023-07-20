@@ -1,13 +1,155 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.logo {
+  height: 50px;
+  width: 50px;
+}
+
+.currentDate {
+  background-color: rgba(1, 158, 255, 0.8);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 50%;
+}
+
+.header_btn {
+  border: 1px solid gray;
+  outline: none;
+  background: none;
+  border-radius: 4px;
+  color: #333;
+  margin: 0 20px 0 30px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.header_btn:hover {
+  background-color: rgba(167, 165, 165, 0.1);
+}
+
+.chev_icons {
+  cursor: pointer;
+}
+
+.sidebar {
+  padding: 10px 20px;
+  width: 300px;
+  border-top: 1px solid #eee;
+}
+
+.create_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  outline: none;
+  border-radius: 22px;
+  font-size: 16px;
+  padding: 4px 22px;
+  background-color: #fff;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.create_btn:hover {
+  box-shadow: 2px 3px 6px 2px rgba(0, 0, 0, 0.5);
+}
+
+.small_cal_header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.small_cal_grid {
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.small_cal_btn {
+  border: none;
+  outline: none;
+  background-color: #fff;
+  padding: 4px 0;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.rounded_date {
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rounded_date:hover {
+  background-color: #eee;
+}
+
+.currDateClass {
+  background-color: rgba(1, 158, 255, 0.8);
+  color: #fff;
+}
+
+.currDateClass:hover {
+  background-color: rgba(1, 158, 255, 0.8);
+  color: #fff;
+}
+
+.day_selected {
+  background-color: rgba(185, 225, 250, 0.9);
+  color: rgba(1, 158, 255, 0.8);
+  font-weight: 700;
+  transition: all 0.1s ease-in-out;
+}
+
+.day_selected:hover {
+  background-color: rgba(185, 225, 250, 0.9);
+  color: rgba(1, 158, 255, 0.8);
+  font-weight: 700;
+}
+
+.icons {
+  color: gray;
+}
+
+.MuiBackdrop-root {
+  background-color: transparent !important;
+}
+
+.color_boxes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.color_box {
+  border-radius: 50%;
+}
+
+.check_icon {
+  color: #fff;
 }
