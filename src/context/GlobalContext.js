@@ -4,9 +4,10 @@ import { ADDEVENT, DELETEEVENT, EDITEVENT } from "../constants/dispatchEvents";
 import {
   GoogleAuthProvider,
   signInWithPopup,
-  signInWithRedirect,
   signOut,
   onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -51,6 +52,8 @@ const GlobalContext = React.createContext({
   googleSignIn: () => {},
   logout: () => {},
   currentUser: null,
+  createUser: () => {},
+  signInUser: () => {},
 });
 
 export const GlobalContextProvider = (props) => {
@@ -61,12 +64,19 @@ export const GlobalContextProvider = (props) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedLabels, setSelectedlabels] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider);
     // signInWithRedirect(auth, provider);
+  };
+
+  const createUser = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const signInUser = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
   useEffect(() => {
@@ -152,8 +162,8 @@ export const GlobalContextProvider = (props) => {
         googleSignIn,
         logout,
         currentUser,
-        loading,
-        setLoading,
+        createUser,
+        signInUser,
       }}
     >
       {props.children}

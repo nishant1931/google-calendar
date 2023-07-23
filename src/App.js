@@ -16,11 +16,13 @@ import {
 import Home from "./pages/Home";
 import GoogleCalendarPage from "./pages/GoogleCalendarPage";
 import Protect from "./components/Protect";
+import Signup from "./pages/Signup";
 
 const App = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Home />} />
+      <Route exact path="/signup" element={<Signup />} />
       <Route
         exact
         path="/google-calendar"

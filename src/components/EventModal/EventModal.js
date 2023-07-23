@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Button from "@mui/material/Button";
-import { Dialog, Box, TextField, Typography } from "@mui/material/";
+import { Dialog, Box, TextField, Typography, Input } from "@mui/material/";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
@@ -15,6 +15,7 @@ import SegmentIcon from "@mui/icons-material/Segment";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EmailIcon from "@mui/icons-material/Email";
 
 import { styled } from "@mui/material/styles";
 import GlobalContext from "../../context/GlobalContext";
@@ -48,6 +49,9 @@ const EventModal = ({ open, setOpen }) => {
     useContext(GlobalContext);
 
   const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
+  const [participantEmail, setParticipantEmail] = useState(
+    selectedEvent ? selectedEvent.participantEmail : ""
+  );
   const [description, setDescription] = useState(
     selectedEvent ? selectedEvent.description : ""
   );
@@ -111,6 +115,7 @@ const EventModal = ({ open, setOpen }) => {
       title,
       description,
       label: selectedLabel,
+      participant: participantEmail,
       day: daySelected.valueOf(),
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
@@ -151,7 +156,6 @@ const EventModal = ({ open, setOpen }) => {
             }}
             placeholder="Add Title"
             type="text"
-            key="title"
             fullWidth
             variant="standard"
           />
@@ -168,13 +172,25 @@ const EventModal = ({ open, setOpen }) => {
               id="description"
               name="description"
               multiline
-              variant="filled"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add Description"
               size="small"
               type="text"
               fullWidth
+              variant="standard"
+            />
+          </Box>
+          <Box my={2} display="flex" alignItems="center" gap={1}>
+            <EmailIcon className="icons" fontSize="small " />
+            <Input
+              id="participantEmail"
+              name="participantEmail"
+              value={participantEmail}
+              onChange={(e) => setParticipantEmail(e.target.value)}
+              placeholder="Add participant email"
+              size="small"
+              type="email"
             />
           </Box>
           <Box my={2} display="flex" alignItems="center" gap={1}>

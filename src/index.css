@@ -17,10 +17,15 @@ code {
     monospace;
 }
 
-.home_header {
+a {
+  text-decoration: none;
+}
+
+.header_container {
   height: 64px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
