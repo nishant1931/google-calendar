@@ -17,6 +17,12 @@ code {
     monospace;
 }
 
+.home_header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
 .logo {
   height: 50px;
   width: 50px;

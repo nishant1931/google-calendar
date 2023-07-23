@@ -1,6 +1,14 @@
 import dayjs from "dayjs";
 import React, { useEffect, useMemo, useReducer, useState } from "react";
 import { ADDEVENT, DELETEEVENT, EDITEVENT } from "../constants/dispatchEvents";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { auth } from "../firebase";
 
 const savedEventsReducer = (state, action) => {
   switch (action.type) {
@@ -40,6 +48,9 @@ const GlobalContext = React.createContext({
   selectedLabels: [],
   setSelectedlabels: () => {},
   updateLabel: () => {},
+  googleSignIn: () => {},
+  logout: () => {},
+  currentUser: null,
 });
 
 export const GlobalContextProvider = (props) => {
@@ -49,6 +60,27 @@ export const GlobalContextProvider = (props) => {
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedLabels, setSelectedlabels] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const googleSignIn = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+    // signInWithRedirect(auth, provider);
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const logout = () => {
+    signOut(auth);
+  };
 
   const [savedEvents, dispatchCall] = useReducer(
     savedEventsReducer,
@@ -117,6 +149,11 @@ export const GlobalContextProvider = (props) => {
         setSelectedlabels,
         updateLabel,
         filteredEvents,
+        googleSignIn,
+        logout,
+        currentUser,
+        loading,
+        setLoading,
       }}
     >
       {props.children}
