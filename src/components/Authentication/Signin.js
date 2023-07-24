@@ -9,12 +9,34 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
+  const emailIsValid = email.trim() !== "";
+  const passwordIsValid = password.trim() !== "";
+  const emailIsInvalid = !emailIsValid && emailTouched;
+  const passwordIsInvalid = !passwordIsValid && passwordTouched;
+
   const { signInUser } = useContext(GlobalContext);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!emailIsValid) {
+      setEmailTouched(true);
+      return;
+    }
+
+    if (!passwordIsValid) {
+      setPasswordTouched(true);
+      return;
+    }
+
+    setEmailTouched(false);
+    setPasswordTouched(false);
+
     setError("");
     try {
       await signInUser(email, password);
@@ -42,6 +64,9 @@ const Signin = () => {
       <form onSubmit={handleSubmit}>
         <Box mb={2}>
           <TextField
+            error={emailIsInvalid}
+            onBlur={() => setEmailTouched(true)}
+            helperText={emailTouched && emailIsInvalid && "Enter valid email"}
             id="email"
             name="email"
             label="Email"
@@ -54,6 +79,11 @@ const Signin = () => {
         </Box>
         <Box>
           <TextField
+            error={passwordIsInvalid}
+            onBlur={() => () => setPasswordTouched(true)}
+            helperText={
+              passwordTouched && passwordIsInvalid && "Enter your password"
+            }
             id="password"
             name="password"
             value={password}

@@ -1,5 +1,5 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header/Header";
 import GlobalContext from "../context/GlobalContext";
@@ -10,16 +10,40 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
+  const emailIsValid = email.trim() !== "";
+  const passwordIsValid = password.trim() !== "";
+  const emailIsInvalid = !emailIsValid && emailTouched;
+  const passwordIsInvalid = !passwordIsValid && passwordTouched;
+
   const { createUser } = useContext(GlobalContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!emailIsValid) {
+      setEmailTouched(true);
+      return;
+    }
+
+    if (!passwordIsValid) {
+      setPasswordTouched(true);
+      return;
+    }
+
+    setEmailTouched(false);
+    setPasswordTouched(false);
+
     setError("");
     try {
       await createUser(email, password);
+      return true;
     } catch (error) {
       console.log(error);
       setError(error.message);
+      return false;
     }
   };
 
@@ -48,6 +72,11 @@ const Signup = () => {
             <Box mb={2}>
               <TextField
                 id="email"
+                error={emailIsInvalid}
+                onBlur={() => setEmailTouched(true)}
+                helperText={
+                  emailTouched && emailIsInvalid && "Enter valid email"
+                }
                 name="email"
                 label="Email"
                 size="small"
@@ -60,6 +89,11 @@ const Signup = () => {
             <Box>
               <TextField
                 id="password"
+                error={passwordIsInvalid}
+                onBlur={() => () => setPasswordTouched(true)}
+                helperText={
+                  passwordTouched && passwordIsInvalid && "Enter your password"
+                }
                 name="password"
                 label="Password"
                 value={password}

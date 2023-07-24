@@ -17,7 +17,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EmailIcon from "@mui/icons-material/Email";
 
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 import GlobalContext from "../../context/GlobalContext";
 import {
   ADDEVENT,
@@ -60,6 +60,16 @@ const EventModal = ({ open, setOpen }) => {
       ? labelClasses.find((label) => label === selectedEvent.label)
       : labelClasses[0]
   );
+
+  const [titleTouched, setTitleTouched] = useState(false);
+  const [participantEmailTouched, setParticipantEmailTouched] = useState(false);
+
+  const titleIsValid = title && title.trim() !== "";
+  const titleIsInvalid = !titleIsValid && titleTouched;
+  const participantEmailIsValid =
+    participantEmail && participantEmail.trim() !== "";
+  const participantEmailIsInvalid =
+    !participantEmailIsValid && participantEmailTouched;
 
   const handleClose = () => {
     setOpen(false);
@@ -111,6 +121,18 @@ const EventModal = ({ open, setOpen }) => {
   const submitEventsHandler = (e) => {
     e.preventDefault();
 
+    if (!titleIsValid) {
+      setTitleTouched(true);
+      return;
+    }
+
+    if (!participantEmailIsValid) {
+      setParticipantEmailTouched(true);
+      return;
+    }
+
+    // setTitleTouched(false);
+
     const calendarEvents = {
       title,
       description,
@@ -148,6 +170,9 @@ const EventModal = ({ open, setOpen }) => {
         <DialogContent sx={{ paddingBottom: "6px" }}>
           <TextField
             id="title"
+            error={titleIsInvalid}
+            onBlur={() => setTitleTouched(true)}
+            helperText={titleTouched && titleIsInvalid && "Please Add title!"}
             autoFocus={false}
             name="title"
             value={title}
@@ -168,10 +193,10 @@ const EventModal = ({ open, setOpen }) => {
           <Box my={1} display="flex" alignItems="center" gap={1}>
             <SegmentIcon className="icons" fontSize="small " />
             <TextField
-              // margin="dense"
               id="description"
               name="description"
               multiline
+              required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add Description"
@@ -183,14 +208,22 @@ const EventModal = ({ open, setOpen }) => {
           </Box>
           <Box my={2} display="flex" alignItems="center" gap={1}>
             <EmailIcon className="icons" fontSize="small " />
-            <Input
+            <TextField
               id="participantEmail"
               name="participantEmail"
+              error={participantEmailIsInvalid}
+              onBlur={() => setParticipantEmailTouched(true)}
+              helperText={
+                participantEmailTouched &&
+                participantEmailIsInvalid &&
+                "Please Add participant email!"
+              }
               value={participantEmail}
               onChange={(e) => setParticipantEmail(e.target.value)}
               placeholder="Add participant email"
               size="small"
               type="email"
+              variant="standard"
             />
           </Box>
           <Box my={2} display="flex" alignItems="center" gap={1}>
