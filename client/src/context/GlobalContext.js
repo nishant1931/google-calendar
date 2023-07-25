@@ -65,8 +65,6 @@ export const GlobalContextProvider = (props) => {
   const [selectedLabels, setSelectedlabels] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
-  console.log(currentUser);
-
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider);

@@ -146,16 +146,16 @@ const EventModal = ({ open, setOpen }) => {
     if (selectedEvent) {
       dispatchCall({ type: EDITEVENT, payload: calendarEvents });
     } else {
-      const res = await fetch("/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          participantEmail,
-          senderEmail: currentUser && currentUser.email,
-        }),
-      });
+      // const res = await fetch("/register", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     participantEmail,
+      //     senderEmail: currentUser && currentUser.email,
+      //   }),
+      // });
       dispatchCall({ type: ADDEVENT, payload: calendarEvents });
     }
 
@@ -170,6 +170,7 @@ const EventModal = ({ open, setOpen }) => {
         PaperComponent={PaperComponent}
         sx={{ background: "transparent" }}
       >
+        {" "}
         <BootstrapDialogTitle
           style={{ cursor: "move" }}
           id="draggable-dialog-title"
@@ -178,7 +179,9 @@ const EventModal = ({ open, setOpen }) => {
         >
           <DragHandleIcon className="icons" />
         </BootstrapDialogTitle>
-        <DialogContent sx={{ paddingBottom: "6px" }}>
+        <DialogContent
+          sx={{ paddingBottom: "6px", width: "400px", maxWidth: "100%" }}
+        >
           <TextField
             id="title"
             error={titleIsInvalid}
@@ -195,11 +198,28 @@ const EventModal = ({ open, setOpen }) => {
             fullWidth
             variant="standard"
           />
-          <Box my={2} display="flex" alignItems="center" gap={1}>
-            <AccessTimeIcon className="icons" fontSize="small " />
-            <Typography variant="subtitle2">
-              {daySelected.format("dddd, MMMM DD")}
-            </Typography>
+          <Box
+            my={2}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+            gap={1}
+          >
+            <Box display="flex" alignItems="center" gap={1}>
+              <AccessTimeIcon className="icons" fontSize="small " />
+              <Typography variant="subtitle2">
+                {daySelected.format("dddd, MMMM DD")}
+              </Typography>
+            </Box>
+            <Box>
+              <Button
+                size="small"
+                sx={{ fontSize: "10px" }}
+                variant="contained"
+              >
+                Add time
+              </Button>
+            </Box>
           </Box>
           <Box my={1} display="flex" alignItems="center" gap={1}>
             <SegmentIcon className="icons" fontSize="small " />
@@ -235,6 +255,7 @@ const EventModal = ({ open, setOpen }) => {
               size="small"
               type="email"
               variant="standard"
+              fullWidth
             />
           </Box>
           <Box my={2} display="flex" alignItems="center" gap={1}>
