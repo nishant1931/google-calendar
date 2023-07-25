@@ -18,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EmailIcon from "@mui/icons-material/Email";
 
 // import { styled } from "@mui/material/styles";
+
 import GlobalContext from "../../context/GlobalContext";
 import {
   ADDEVENT,
@@ -45,7 +46,7 @@ const labelClasses = [
 ];
 
 const EventModal = ({ open, setOpen }) => {
-  const { daySelected, dispatchCall, selectedEvent } =
+  const { daySelected, dispatchCall, selectedEvent, currentUser } =
     useContext(GlobalContext);
 
   const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
@@ -118,7 +119,7 @@ const EventModal = ({ open, setOpen }) => {
     );
   }
 
-  const submitEventsHandler = (e) => {
+  const submitEventsHandler = async (e) => {
     e.preventDefault();
 
     if (!titleIsValid) {
@@ -137,7 +138,7 @@ const EventModal = ({ open, setOpen }) => {
       title,
       description,
       label: selectedLabel,
-      participant: participantEmail,
+      participantEmail,
       day: daySelected.valueOf(),
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
@@ -145,6 +146,16 @@ const EventModal = ({ open, setOpen }) => {
     if (selectedEvent) {
       dispatchCall({ type: EDITEVENT, payload: calendarEvents });
     } else {
+      const res = await fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          participantEmail,
+          senderEmail: currentUser && currentUser.email,
+        }),
+      });
       dispatchCall({ type: ADDEVENT, payload: calendarEvents });
     }
 

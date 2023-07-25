@@ -5,6 +5,8 @@ import Header from "../components/Header/Header";
 import GlobalContext from "../context/GlobalContext";
 import AlertMessage from "../components/Alert/AlertMessage";
 
+const emailFormat = /.+@.+\.[A-Za-z]+$/;
+
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +15,8 @@ const Signup = () => {
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
 
-  const emailIsValid = email.trim() !== "";
+  const emailPatternValid = emailFormat.test(email);
+  const emailIsValid = email.trim() !== "" && emailPatternValid;
   const passwordIsValid = password.trim() !== "";
   const emailIsInvalid = !emailIsValid && emailTouched;
   const passwordIsInvalid = !passwordIsValid && passwordTouched;
